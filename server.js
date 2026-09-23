@@ -1,0 +1,4 @@
+// Serveur facultatif, limité à l’interface locale. Aucun paquet à installer.
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const allowed=new Set(['index.html','style.css','app.js','engine.js','content.js']);
+http.createServer((req,res)=>{const name=new URL(req.url,'http://localhost').pathname.slice(1)||'index.html';if(!allowed.has(name)){res.writeHead(404);res.end('Not found');return;}fs.readFile(path.join(__dirname,name),(err,data)=>{if(err){res.writeHead(500);res.end('Read error');return;}res.setHeader('Content-Type',name.endsWith('.css')?'text/css; charset=utf-8':name.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');res.end(data);});}).listen(4173,'127.0.0.1',()=>console.log('DGFiP Memory Lab : http://127.0.0.1:4173'));
