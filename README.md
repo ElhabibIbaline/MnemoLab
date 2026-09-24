@@ -1,4 +1,4 @@
-# DGFiP Memory Lab — V2
+# DGFiP Memory Lab — V2.1
 
 Application personnelle de préparation au concours commun externe de catégorie C, branche administrative, objectif DGFiP. Le parcours privilégie **comprendre → cacher → rappeler → corriger → revoir**. Outil indépendant, non affilié à l’administration.
 
@@ -11,6 +11,34 @@ node server.js
 ```
 
 Ouvrir http://127.0.0.1:4173. Arrêt : Ctrl+C. Le serveur écoute uniquement sur l’ordinateur local. Une ouverture directe de `index.html` est aussi possible, mais le serveur est préférable pour un stockage stable. `localhost`, `127.0.0.1`, un autre port, un autre navigateur et `file://` possèdent des stockages distincts. Les contenus fonctionnent hors connexion ; les sources externes nécessitent Internet.
+
+## V2.1 : une intention par vue
+
+La stack, les 108 notions, les 145 QCM et le moteur de progression V2 sont conservés.
+
+- **Comprendre** : la carte du concours se déplie en QCM / cas pratique / oral. Quatre arbres complémentaires (DGFiP, institutions, repères, numérique) relient les notions existantes. Chaque branche s’ouvre et se replie ; la micro-explication reste près du nœud.
+- **Mémoriser** : le hall et ses trois ailes sont reliés visuellement. Les cartes du palais se retournent sur place, avec `aria-pressed` et masquage de la face inactive aux lecteurs d’écran. Clic, toucher, Entrée et Espace sont disponibles. Les emplacements historiques sont conservés ; le repère « fond » reste dans la rangée inférieure pour ne pas déplacer les associations V2.
+- **Détails sur demande** : source et développement dans une boîte de dialogue accessible, avec fermeture par Échap. Une branche conduit à sa pièce ; le détail d’un objet permet de revenir à sa carte mentale lorsqu’une relation existe.
+- **Rappeler** : visite guidée, pause mentale, puis quatre niveaux : objet → notion, notion → objet, objet manquant, pièce vide. Le parcours global ne montre qu’une pièce à la fois, avec révélation après une tentative écrite. La bibliothèque affiche 12 notions par page et conserve ses filtres.
+- **Appliquer** : atelier guidé en quatre étapes, retour en arrière et reprise de l’étape sauvegardée par dossier. Le mode « Examen · dossier complet » rend les quatre espaces accessibles ensemble. Valider une étape constate une tentative, pas la qualité de la rédaction ; aucune maîtrise n’est attribuée automatiquement.
+- **Décider** : dashboard allégé autour d’un seul appel au rappel, trois durées, puis les accès Comprendre / Mémoriser / Appliquer. Les statistiques détaillées restent dans Progression.
+- **Thèmes** : sombre par défaut, clair en option, préférence conservée dans une clé locale distincte. Palette sémantique avec libellés et symboles. Les transitions de branche et de retournement sont supprimées avec `prefers-reduced-motion`.
+- **Mobile** : défilement horizontal natif des cartes spatiales ; zoom de 90 à 120 % et recentrage pour les arbres et le hall. Les objets gardent une taille lisible et les mêmes emplacements. Pas de bibliothèque graphique ni de 3D lourde.
+
+Les nouveaux fichiers sont `data/mindmaps.js` (relations entre IDs) et `cognitive-ui.js` (vues et interactions). Les routes `#map`, `#palace` et `#practice` restent les mêmes. Les sources et l’algorithme de répétition sont inchangés dans cette itération.
+
+Les nouveaux brouillons utilisent `brief-<dossier>` et `workshop-<dossier>`. Les textes V2 de production, plan, classement et parcours mental sont réutilisés. La préférence de thème utilise `<clé-de-progression>-theme` et n’est pas incluse dans l’export de progression.
+
+### Ajouter une branche de carte mentale
+
+Dans `data/mindmaps.js`, ajouter une branche à l’un des arbres :
+
+```js
+{ id: 'branche-stable', title: 'Titre', relation: 'Relation courte',
+  room: 'identifiant-de-piece', notions: ['dg-05', 'dg-06'] }
+```
+
+`room` est facultatif. Les identifiants doivent déjà exister dans le corpus ; aucune réponse n’est dupliquée dans l’arbre. Lancer les tests pour vérifier les références.
 
 ## Contenu V2
 
@@ -132,12 +160,13 @@ Le mode privé, un nettoyage ou un changement d’origine peut rendre le stockag
 ## Tests
 
 ```sh
-node --test tests/engine.test.js tests/v2.test.js
+node --test tests/engine.test.js tests/v2.test.js tests/cognitive.test.js
 node --check app.js
 node --check learning-ui.js
+node --check cognitive-ui.js
 node --check engine.js
 ```
 
-16 tests couvrent identifiants, liens, sources, migration, compteurs, échéances, sélection adaptative, maîtrise, variantes, frise et fichiers servis. Ouvrir `http://127.0.0.1:4173/?qa=1` pour tester l’interface dans un **stockage distinct**, sans toucher à la progression personnelle. Ne pas utiliser cette adresse pour les vraies révisions.
+23 tests couvrent identifiants, liens, sources, migration, compteurs, échéances, sélection adaptative, maîtrise, variantes, frise, fichiers servis, références des arbres, affichage séquentiel, états ARIA et contrastes des couleurs principales. Ouvrir `http://127.0.0.1:4173/?qa=1` pour tester l’interface dans un **stockage distinct**, sans toucher à la progression personnelle. Ne pas utiliser cette adresse pour les vraies révisions.
 
 Voir [tests/VERIFICATION.md](tests/VERIFICATION.md) pour les parcours effectivement vérifiés et leurs limites.

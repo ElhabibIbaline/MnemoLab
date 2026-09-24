@@ -16,11 +16,6 @@ function topicMastery(topic){
 function tableFor(n){return n.table?`<table class="learning-table"><caption>Données fictives de l’exercice</caption><thead><tr>${n.table.headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${n.table.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`:'';}
 function enhanceView(){
  $('#nav').insertAdjacentHTML('beforeend','<a class="mobile-settings" href="#settings">Sauvegardes & sources</a>');
- if(view==='dashboard'){
-  const days=E.examDays(state),items=adaptiveIds(10),allowance=E.newAllowance(state,10);
-  const hero=$('.hero');
-  hero.insertAdjacentHTML('beforebegin',`<section class="callout priority"><div><strong>Priorité concours ${days>=0?'· J − '+days:''}</strong><p>${days>=0&&days<=1?'Consolidez ce qui est déjà vu. Aucune nouvelle notion dans les sessions automatiques.':`Réactivez vos fragilités ; jusqu’à ${allowance} nouvelle(s) notion(s) encore proposées aujourd’hui.`}</p><small>1. ${items.length} rappels ciblés → 2. QCM ciblé → 3. mini-exercice → 4. erreurs</small></div>${btn('Commencer les rappels','priority-recall','','primary')}</section>`);
- }
  if(view==='map')document.querySelectorAll('[data-action="topic"]').forEach(b=>{b.innerHTML=esc(b.dataset.topic)+topicMastery(b.dataset.topic);});
  if(view==='flashcards'&&!flash){
   const grid=$('#main > .grid');
@@ -31,10 +26,6 @@ function enhanceView(){
   const n=notion(flash.ids[flash.index]);$('.question')?.insertAdjacentHTML('afterend',tableFor(n));
  }
  if(view==='qcm'&&quiz&&!quiz.finished){const n=question(quiz.ids[quiz.index]);$('.question')?.insertAdjacentHTML('afterend',tableFor(n));}
- if(view==='practice'){
-  $('#main .page-head').insertAdjacentHTML('afterend',practiceExtras());
-  restoreSort();
- }
  if(view==='progress'){
   const box=$('#main > .callout');
   box.innerHTML='<strong>Révision intensive et maîtrise</strong><p>Les délais habituels sont conservés, mais avant les écrits une échéance ne dépasse pas la moitié du temps encore disponible. Les anciennes échéances trop lointaines sont rapprochées une seule fois lors du passage en V2.</p><p>Pour les nouvelles révisions, « maîtrisé » demande un niveau ≥ 3, trois réussites et des rappels réussis sur au moins deux jours. Une échéance due ou une difficulté remet la notion parmi les fragilités. Ouvrir une fiche ne donne aucun point. La maîtrise héritée de V1 est conservée jusqu’à sa prochaine évaluation.</p><p>Nouveautés automatiques : au plus 8 par jour de J−6 à J−4, 3 de J−3 à J−2, aucune à J−1 et le jour J. Les révisions déjà vues restent disponibles ; la bibliothèque permet toujours un choix explicite.</p>';
@@ -46,12 +37,13 @@ function enhanceView(){
  }
 }
 function filterLibrary(){
- let visible=0;
- document.querySelectorAll('#main > .grid > article').forEach((card,i)=>{
-  const n=C.notions[i],match=(libraryCategory==='all'||n.category===libraryCategory)&&`${n.title} ${n.question} ${n.category}`.toLocaleLowerCase('fr').includes(libraryQuery.toLocaleLowerCase('fr'));
-  card.hidden=!match;if(match)visible++;
- });
- if($('#library-count'))$('#library-count').textContent=`${visible} notions affichées`;
+ const matches=C.notions.filter(n=>(libraryCategory==='all'||n.category===libraryCategory)&&`${n.title} ${n.question} ${n.category}`.toLocaleLowerCase('fr').includes(libraryQuery.toLocaleLowerCase('fr')));
+ const pages=Math.max(1,Math.ceil(matches.length/12));libraryPage=Math.min(libraryPage,pages-1);
+ const ids=new Set(matches.slice(libraryPage*12,(libraryPage+1)*12).map(n=>n.id));
+ document.querySelectorAll('#main > .grid > article').forEach((card,i)=>{card.hidden=!ids.has(C.notions[i].id);});
+ if($('#library-count'))$('#library-count').textContent=`${matches.length} notions · page ${libraryPage+1}/${pages}`;
+ if(!$('#library-pagination'))$('#library-count').insertAdjacentHTML('afterend','<div id="library-pagination" class="row" aria-label="Pages de notions"></div>');
+ $('#library-pagination').innerHTML=btn('← Précédentes','library-prev',libraryPage===0?'disabled':'')+btn('Suivantes →','library-next',libraryPage>=pages-1?'disabled':'');
 }
 
 function palaceView(){
