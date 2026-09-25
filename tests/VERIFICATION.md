@@ -43,3 +43,13 @@ Tests effectués sur `http://127.0.0.1:4173/?qa=1`, qui utilise une clé de stoc
 Pas d’audit complet avec lecteur d’écran ou sur plusieurs navigateurs. Les règles `prefers-reduced-motion` sont présentes dans le CSS ; la préférence du système utilisateur n’a pas été modifiée pour le test. Le téléchargement de fichier n’a pas été confirmé par le navigateur intégré : la copie JSON reste disponible. Le test navigateur ne simule pas l’écoulement complet d’un chrono d’examen.
 
 Les brouillons et étapes d’atelier persistent ; la session QCM en cours ne reprend toujours pas après rechargement. Le mode complet du cas pratique est un environnement de mini-dossier, pas une épreuve blanche de trois heures. Les étapes validées attestent une tentative, jamais une correction automatique de la rédaction.
+
+## Méthodologie — 25 septembre 2026
+
+29 tests automatisés passent, dont 6 nouveaux : budget de 180 minutes/relecture, cohérence du mini-dossier, tentative avant comparaison, ordre des blocs du support, export/import des nouveaux brouillons et rendu des sept étapes. Les 23 tests existants restent passants ; les 108 notions, 145 questions et identifiants sont inchangés.
+
+Parcours navigateur réalisé dans `?qa=1` (stockage de test distinct) : commande avec comparaison bloquée avant réponse, extraction document/nature/utilité, six cartes de plan et titres, reformulation, quatre blocs de support avec déplacement et aperçu, budget sans relecture puis restauration, carte de relecture au clavier et rappel libre. Rechargement puis retour au dossier : l’ancien plan est conservé. Aide contextuelle présente dans chacune des quatre étapes du mode complet.
+
+Présentation paysage contrôlée à 1440 × 900 ; mobile demandé à 390 × 844 (largeur utile remontée par le navigateur : 375 px), sans débordement de page. Sur mobile les panneaux Document/Exercice/Aide se sélectionnent et la comparaison affiche son panneau. Thème clair, thème sombre et conseil sur demande contrôlés. Les dimensions du navigateur ont été restaurées.
+
+Une erreur de syntaxe des nouvelles données détectée au premier chargement a été corrigée. Aucun nouveau message JavaScript d’erreur ou d’avertissement observé depuis ce correctif dans les parcours ci-dessus. L’onglet personnel et son QCM n’ont pas été rechargés. Pas de simulation de trois heures ni d’évaluation automatique de la rédaction ; les limites générales d’accessibilité et de couverture navigateur indiquées plus haut restent applicables.

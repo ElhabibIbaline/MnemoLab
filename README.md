@@ -160,13 +160,27 @@ Le mode privé, un nettoyage ou un changement d’origine peut rendre le stockag
 ## Tests
 
 ```sh
-node --test tests/engine.test.js tests/v2.test.js tests/cognitive.test.js
+node --test tests/engine.test.js tests/v2.test.js tests/cognitive.test.js tests/methodology.test.js
 node --check app.js
 node --check learning-ui.js
 node --check cognitive-ui.js
 node --check engine.js
 ```
 
-23 tests couvrent identifiants, liens, sources, migration, compteurs, échéances, sélection adaptative, maîtrise, variantes, frise, fichiers servis, références des arbres, affichage séquentiel, états ARIA et contrastes des couleurs principales. Ouvrir `http://127.0.0.1:4173/?qa=1` pour tester l’interface dans un **stockage distinct**, sans toucher à la progression personnelle. Ne pas utiliser cette adresse pour les vraies révisions.
+29 tests couvrent identifiants, liens, sources, migration, compteurs, échéances, sélection adaptative, maîtrise, variantes, frise, fichiers servis, références des arbres, affichage séquentiel, états ARIA et contrastes des couleurs principales. Ouvrir `http://127.0.0.1:4173/?qa=1` pour tester l’interface dans un **stockage distinct**, sans toucher à la progression personnelle. Ne pas utiliser cette adresse pour les vraies révisions.
 
 Voir [tests/VERIFICATION.md](tests/VERIFICATION.md) pour les parcours effectivement vérifiés et leurs limites.
+
+## Atelier de méthodologie du cas pratique — 25 septembre 2026
+
+Accès : **Cas pratique → Apprendre la méthode**, ou `#method`. Sept étapes indépendantes : décoder la commande, extraire, organiser, rédiger, communiquer, chronométrer, relire. Les trois dossiers et les modes guidé/complet restent disponibles ; chaque étape de dossier propose une aide contextuelle.
+
+L’atelier utilise un dossier fictif de médiathèque : six passages de commande à identifier, trois documents, cinq informations à qualifier et référencer, six cartes à répartir dans un plan, quatre exercices de reformulation et une note courte annotée. Le support se construit avec quatre blocs éditables, déplaçables par boutons et prévisualisables. Sept cartes de relecture et sept rappels libres complètent le parcours. La comparaison est débloquée après une tentative, sans notation automatique des textes.
+
+La table de travail est horizontale sur grand écran (document, exercice, aide). Sur mobile, trois boutons sélectionnent le panneau utile. Le mode « M’entraîner sans aide » place le conseil principal dans un volet à ouvrir volontairement. La frise de 180 minutes est une répartition pédagogique modifiable, distincte de la durée officielle ; elle signale les dépassements, minutes non attribuées et absence de relecture.
+
+Le contenu est dans `data/methodology.js` (`METHOD_CONTENT`), le rendu et les interactions dans `methodology-ui.js`. Les collections `command`, `extracts`, `planCards`, `rewrites`, `support` et `checks` contiennent les exercices et propositions. Pour modifier un exercice, conserver sa position ou prévoir la migration des clés de brouillon correspondantes ; ce premier atelier est calibré pour sept étapes et quatre blocs de support. Les références documentaires des extraits doivent pointer vers `documents` ou « Aucun » pour une interprétation non fondée.
+
+Les réponses, le budget, le mode, l’étape et l’ordre du support utilisent les clés `method-*` dans les brouillons existants. Ils sont inclus dans l’export/import habituel. Aucune migration ni suppression de progression, aucun point de maîtrise accordé pour une simple lecture. Le retournement temporaire des cartes et l’ouverture des corrections ne sont pas sauvegardés.
+
+Les modalités et le sujet zéro ont été revérifiés le 25 septembre 2026 : liens dans le volet « Cadre officiel » et dans `SOURCES.md`. Le dossier, la note et les conseils sont des créations pédagogiques fictives, pas un corrigé officiel. Les structures de plan et la maquette ne sont pas universelles : la commande réelle prime. Cet atelier est un entraînement court, pas une nouvelle épreuve blanche complète de trois heures.

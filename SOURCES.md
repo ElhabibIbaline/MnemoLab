@@ -53,3 +53,11 @@ Les références exactes, types et dates sont dans `data/catalog.js` et dans les
 - [CCNUCC — COP30](https://unfccc.int/cop30/about-cop30) — Organisation internationale ; vérifié le 2026-09-24.
 - [Nations unies — présentation](https://www.un.org/fr/) — Organisation internationale ; vérifié le 2026-09-24.
 - [ONU — programme 2030](https://www.un.org/sustainabledevelopment/fr/development-agenda/) — Organisation internationale ; vérifié le 2026-09-24.
+
+## Méthodologie du cas pratique — vérification du 25 septembre 2026
+
+[Page officielle du concours](https://www.economie.gouv.fr/rejoignez-nous/agent-administratif-principal-des-finances-publiques-de-2eme-classe-externe-dgfip) : durée du cas pratique, coefficient et volume maximal du dossier.
+
+[Sujet zéro officiel 2026 — admissibilité](https://rejoindrelesfinancespubliques.economie.gouv.fr/files/files/concours/Sujets_zero/CCC%20-%202026%20-%20sujet%20test%20-%20admissibilit%C3%A9.pdf) : consignes, productions et contraintes étudiées. Le module distingue les caractéristiques de ce sujet des conseils généraux ; les axes et formats demandés par la commande priment toujours sur un modèle appris.
+
+Le dossier de médiathèque, ses chiffres et dates, les reformulations, le modèle de note et la répartition du temps sont des exemples pédagogiques originaux explicitement fictifs ou indicatifs. Ils ne sont pas attribués à l’administration. Les liens officiels réutilisent `LAB_CONTENT.sources.concours` et `zeroCase`, avec une date de vérification propre au module dans `METHOD_CONTENT.verifiedAt`.
